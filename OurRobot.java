@@ -15,6 +15,8 @@ public class OurRobot {
 		rightMotor = robot.getLargeMotor(Motor.Port.C);
 		
 		speaker = robot.getSpeaker();
+		
+		ColorSensor detectColor = robot.getColorSensor(Sensor.Port.S1);
 	}
 	
 	public void forward(int duration) {
