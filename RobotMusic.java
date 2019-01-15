@@ -11,7 +11,10 @@ public class RobotMusic {
 		int scoreLength = score.length;
 		for (int n=0; n < scoreLength; n++) {
 			String[] note = score[n].split(",");
-			//System.out.println(String.join(",", note));
+			
+			// Print each parsed note
+			System.out.println(String.join(" * ", note));
+			
 			int frequency = 0;
 			switch (note[0]) {
 				case "G,":	frequency = 196;	break;
@@ -49,7 +52,7 @@ public class RobotMusic {
 				case "#d'":	frequency = 1245;	break;
 				case "e'":	frequency = 1319;	break;
 			}
-			if (note.length > 1) {
+			if (note.length > 0) {
 				double duration = Double.valueOf(note[1]);
 				speaker.playTone(frequency, (int) Math.round(tempo*duration));
 			}
@@ -65,8 +68,17 @@ public class RobotMusic {
 		// Robot setup
 		Robot robot = new Robot("dia-lego-e2");
 		Speaker speaker = robot.getSpeaker();
+		/*
+		Motor leftMotor = robot.getLargeMotor(Motor.Port.B);
+		Motor rightMotor = robot.getLargeMotor(Motor.Port.C);
+		*/
+		//leftMotor.forward();
+		//rightMotor.forward();
 		
 		playMusic("G;A;B;c;d;c;B;A;G", 200, speaker);
+		
+		//leftMotor.stop();
+		//rightMotor.stop();
 		
 		robot.close();
 		
