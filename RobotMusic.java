@@ -11,6 +11,7 @@ public class RobotMusic {
 		int scoreLength = score.length;
 		for (int n=0; n < scoreLength; n++) {
 			String[] note = score[n].split(",");
+			//System.out.println(String.join(",", note));
 			int frequency = 0;
 			switch (note[0]) {
 				case "G,":	frequency = 196;	break;
@@ -48,7 +49,7 @@ public class RobotMusic {
 				case "#d'":	frequency = 1245;	break;
 				case "e'":	frequency = 1319;	break;
 			}
-			if (note.length > 0) {
+			if (note.length > 1) {
 				double duration = Double.valueOf(note[1]);
 				speaker.playTone(frequency, (int) Math.round(tempo*duration));
 			}
