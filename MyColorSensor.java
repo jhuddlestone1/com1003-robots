@@ -1,6 +1,6 @@
 //protected methods, should we use (it is in a sample of code)/ get rid of int count in scan methods, get rid of boolean forward//should we use waitfor function
 
-import ShefRobot.*;
+//import ShefRobot.*;
 
 public class MyColorSensor {
 	//global variables
