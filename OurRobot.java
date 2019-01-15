@@ -63,7 +63,6 @@ public class OurRobot {
 				left(1000);
 				forward(500);
 			}
-			else
 		}
 	}
 
