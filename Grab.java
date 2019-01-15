@@ -7,15 +7,15 @@ import ShefRobot.*;
 public class Grab extends MyColorSensor {
 	
 	// This is temporary... should update .goForward() to accept params in metres.
-	int nudge = 2;	// 0.02 m ?
+	static int nudge = 2;	// 0.02 m ?
 	
-	UltrasonicSensor distanceSensor = robot.getUltrasonicSensor(Sensor.Port.B);
-	Motor grabMotor = robot.getLargeMotor(Motor.Port.A);
+	static UltrasonicSensor distanceSensor = robot.getUltrasonicSensor(Sensor.Port.S2);
+	static Motor grabMotor = robot.getLargeMotor(Motor.Port.A);
 	
 	/** Tests proximity to object and lowers grab arm if close.
 	@return		boolean		proximity triggered; grab arm lowered
 	*/
-	public boolean grabIfClose() {
+	public static boolean grabIfClose() {
 		
 		float distance = distanceSensor.getDistance();
 		
@@ -30,4 +30,17 @@ public class Grab extends MyColorSensor {
 		return false;
 	}
 	
+	/** Raises grab arm. */
+	public static void grabReset() {
+		
+		grabMotor.backward();
+		while(!grabMotor.isStalled());
+		grabMotor.stop();
+	}
+	
+	public static void main(String[] args) {
+		
+		while (!grabIfClose());
+		
+	}
 }
