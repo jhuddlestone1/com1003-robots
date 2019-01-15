@@ -62,16 +62,10 @@ public class RobotMusic {
 	public static void main(String[] args) {
 	
 		// Robot setup
-		Robot robot = new Robot("dia-lego-j2");
-		/*
-		Motor leftMotor = robot.getLargeMotor(Motor.Port.B);
-		Motor rightMotor = robot.getLargeMotor(Motor.Port.C);
-		*/
+		Robot robot = new Robot("dia-lego-e2");
 		Speaker speaker = robot.getSpeaker();
 		
-		
 		playMusic("G;A;B;c;d;c;B;A;G", 200, speaker);
-		
 		
 		robot.close();
 		
