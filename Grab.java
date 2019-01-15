@@ -1,6 +1,9 @@
 /** Adds methods for detecting the ping-pong ball to an instance of OurRobot.
 @author		Jamie Huddlestone
 */
+
+import ShefRobot.*;
+
 public class Grab extends MyColorSensor {
 	
 	// This is temporary... should update .goForward() to accept params in metres.
@@ -10,7 +13,7 @@ public class Grab extends MyColorSensor {
 	Motor grabMotor = robot.getLargeMotor(Motor.Port.A);
 	
 	/** Tests proximity to object and lowers grab arm if close.
-	@return boolean proximity triggered; grab arm lowered
+	@return		boolean		proximity triggered; grab arm lowered
 	*/
 	public boolean grabIfClose() {
 		
