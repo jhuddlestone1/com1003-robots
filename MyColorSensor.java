@@ -10,7 +10,7 @@ public class MyColorSensor {
     private static Speaker speaker;
     private static ColorSensor sensor;
     private static ColorSensor.Color col;
-	private static final int WALKING_SPEED=500;
+	private static final int WALKING_SPEED=200;
 	
 	public static void main(String[] args){	
 	
@@ -28,7 +28,7 @@ public class MyColorSensor {
     	sensor = robot.getColorSensor(Sensor.Port.S1);
     	
     	// the robot goes forward till black color is detected
-    	scanBlack(true,20,ColorSensor.Color.BLACK); // a wrong value 20
+    	scanBlack(true,ColorSensor.Color.BLACK); // a wrong value 20
 		
 		//once the robot finds black, it turns left 90 degrees
 		turnLeft(90); // a wrong value of 90, adjust it
@@ -126,9 +126,9 @@ public class MyColorSensor {
     // This method updates the col variable, so 
     // that will be set to the last colour scanned
     // when the method completes.
-    private static void scanBlack(boolean forward, int count, ColorSensor.Color color) {
+    private static void scanBlack(boolean forward, ColorSensor.Color color) {
     	//System.out.println("Scanning " + (right ? "right" : "left") + " for " + count);
-    	for(int i = 0; i < count; i++) {
+    	while (col != color) {
     		if(forward) {
 				goForward(5); //a wrong value
     		} else {
