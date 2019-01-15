@@ -1,6 +1,6 @@
 //protected methods, should we use (it is in a sample of code)/ get rid of int count in scan methods, get rid of boolean forward//should we use waitfor function
 
-import ShefRobot.*;
+//import ShefRobot.*;
 
 public class MyColorSensor {
 	//global variables
@@ -10,7 +10,7 @@ public class MyColorSensor {
     private static Speaker speaker;
     private static ColorSensor sensor;
     private static ColorSensor.Color col;
-	private static final int WALKING_SPEED=500;
+	private static final int WALKING_SPEED=200;
 	
 	public static void main(String[] args){	
 	
@@ -28,20 +28,20 @@ public class MyColorSensor {
     	sensor = robot.getColorSensor(Sensor.Port.S1);
     	
     	// the robot goes forward till black color is detected
-    	scanBlack(true,20,ColorSensor.Color.BLACK); // a wrong value 20
+    	scanBlack(true,ColorSensor.Color.BLACK); // a wrong value 20
 		
 		//once the robot finds black, it turns left 90 degrees
 		turnLeft(90); // a wrong value of 90, adjust it
 		
 		// go forward till the end of the black path
-		scanOffThePath(true,20,ColorSensor.Color.BLACK); // a wrong value 20 
+		scanOffThePath(true, ColorSensor.Color.BLACK); // a wrong value 20 
 		//once the robot loose the black line, it turns right 90 degrees
 		turnRight(90); // a wrong value of 90, adjust it
 		//robot keeps track the black line 
-		scanOffThePath(true,20,ColorSensor.Color.BLACK); // a wrong value 20 
+		scanOffThePath(true,ColorSensor.Color.BLACK); // a wrong value 20 
 		//once the robot is out of the path, it is to go back to the centre of the circle 
 		blackDot();
-		scanRed(true,20,ColorSensor.Color.RED);
+		scanRed(true,CoorSensor.Color.RED);
     	// Close the robot and clean up all the connections to ports.
     	robot.close();
     }
@@ -52,24 +52,23 @@ public class MyColorSensor {
 				//OF CIRCLE? MANUAL MEASURE OR ROBOT SHOULD FIGURE OUT THE CENTRE	
 				goBackward(20); // a wrong value
 				turnRight(5); // a wrong value
-				scanOffThePath(true,20,ColorSensor.Color.BLACK);
+				scanOffThePath(true,ColorSensor.Color.BLACK);
 				col = sensor.getColor();	
 			}
 		}
 		
-		 private static void scanRed(boolean forward, int count, ColorSensor.Color color) {
+		 private static void scanRed(boolean forward, ColorSensor.Color color) {
     	//System.out.println("Scanning " + (right ? "right" : "left") + " for " + count);
-			for(int i = 0; i < count; i++) {
+			while (col !=color){
 				if(forward) {
 					goForward(5); //a wrong value
-				} else {
+				}
+                else {
 					goBackward(5); //a wrong value
 				}
 				col = sensor.getColor();			
-				if(col == color) {
-					//make a sound
-				}
 			}
+	    //make sound
     }
     
     // This method moves the robot forward by count "steps"
@@ -126,12 +125,13 @@ public class MyColorSensor {
     // This method updates the col variable, so 
     // that will be set to the last colour scanned
     // when the method completes.
-    private static void scanBlack(boolean forward, int count, ColorSensor.Color color) {
+    private static void scanBlack(boolean forward, ColorSensor.Color color) {
     	//System.out.println("Scanning " + (right ? "right" : "left") + " for " + count);
-    	for(int i = 0; i < count; i++) {
+    	while (col != color) {
     		if(forward) {
 				goForward(5); //a wrong value
-    		} else {
+    		}
+            else {
     			goBackward(5); //a wrong value
     		}
     		col = sensor.getColor();			
@@ -140,15 +140,16 @@ public class MyColorSensor {
     		}
     	}
     }
-	private static void scanOffThePath(boolean forward, int count, ColorSensor.Color color) {
+	private static void scanOffThePath(boolean forward, ColorSensor.Color color) {
     	//System.out.println("Scanning " + (right ? "right" : "left") + " for " + count);
 		//change for loops to while loops ! (delete int count)
-    	for(int i = 0; i < count; i++) {
+    	while (true){
     		col = sensor.getColor();			
     		if(col == color) {
 				if(forward) {
 					goForward(5); //a wrong value
-				} else {
+				} 
+                else {
 					goBackward(5); //a wrong value
 				}
 			}
