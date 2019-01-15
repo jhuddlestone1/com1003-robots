@@ -2,7 +2,7 @@
 
 import ShefRobot.*;
 
-public class MyColorSensor{
+public class MyColorSensor {
 	//global variables
 	private static Robot robot;
     private static Motor leftMotor;
@@ -17,8 +17,8 @@ public class MyColorSensor{
 		// get a robot object
     	robot = new Robot("dia-lego-e2");
     	// get left and right Motor objects
-    	leftMotor = robot.getLargeMotor(Motor.Port.A);
-    	rightMotor = robot.getLargeMotor(Motor.Port.B);
+    	leftMotor = robot.getLargeMotor(Motor.Port.B);
+    	rightMotor = robot.getLargeMotor(Motor.Port.C);
 		
 		//set speed
     	leftMotor.setSpeed(WALKING_SPEED);
@@ -47,7 +47,7 @@ public class MyColorSensor{
     }
 	
 		private static void blackDot(){
-			while (col != color){
+			while (col != ColorSensor.Color.BLACK){
 				//WORK ON MORE ELABORATE METHOD, HOW TO MEASURE THE DISTANCE TO CENTRE
 				//OF CIRCLE? MANUAL MEASURE OR ROBOT SHOULD FIGURE OUT THE CENTRE	
 				goBackward(20); // a wrong value
