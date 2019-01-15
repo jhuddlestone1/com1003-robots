@@ -1,16 +1,16 @@
 //protected methods, should we use (it is in a sample of code)/ get rid of int count in scan methods, get rid of boolean forward//should we use waitfor function
 
-//import ShefRobot.*;
+import ShefRobot.*;
 
 public class MyColorSensor {
 	//global variables
-	private static Robot robot;
-    private static Motor leftMotor;
-    private static Motor rightMotor;
-    private static Speaker speaker;
-    private static ColorSensor sensor;
-    private static ColorSensor.Color col;
-	private static final int WALKING_SPEED=200;
+	 static Robot robot;
+     static Motor leftMotor;
+     static Motor rightMotor;
+     static Speaker speaker;
+     static ColorSensor sensor;
+     static ColorSensor.Color col;
+	 static final int WALKING_SPEED=150;
 	
 	public static void main(String[] args){	
 	
@@ -30,18 +30,21 @@ public class MyColorSensor {
     	// the robot goes forward till black color is detected
     	scanBlack(true,ColorSensor.Color.BLACK); // a wrong value 20
 		
-		//once the robot finds black, it turns left 90 degrees
-		turnLeft(90); // a wrong value of 90, adjust it
-		
 		// go forward till the end of the black path
 		scanOffThePath(true, ColorSensor.Color.BLACK); // a wrong value 20 
+			
+		//TO WORK ON:
 		//once the robot loose the black line, it turns right 90 degrees
-		turnRight(90); // a wrong value of 90, adjust it
+		//turnRight(90); // a wrong value of 90, adjust it
+		
 		//robot keeps track the black line 
-		scanOffThePath(true,ColorSensor.Color.BLACK); // a wrong value 20 
+		//scanOffThePath(true,ColorSensor.Color.BLACK); // a wrong value 20 
+		
 		//once the robot is out of the path, it is to go back to the centre of the circle 
-		blackDot();
-		scanRed(true,CoorSensor.Color.RED);
+		//blackDot();
+		//scanRed(true,ColorSensor.Color.RED);
+
+		
     	// Close the robot and clean up all the connections to ports.
     	robot.close();
     }
@@ -61,7 +64,7 @@ public class MyColorSensor {
     	//System.out.println("Scanning " + (right ? "right" : "left") + " for " + count);
 			while (col !=color){
 				if(forward) {
-					goForward(5); //a wrong value
+					goForward(500); //a wrong value
 				}
                 else {
 					goBackward(5); //a wrong value
@@ -75,12 +78,12 @@ public class MyColorSensor {
     // Technically, the steps are degrees of rotation of the motors
     // but how this translates to actual distances moved will depend
     // on various factors...
-    protected static void goForward(int count) {
-    	leftMotor.resetTachoCount();
-    	rightMotor.resetTachoCount();
-    	leftMotor.forward();
-    	rightMotor.forward();
-    	waitfor(count,false,false);
+    protected static void goForward(int duration) {
+		leftMotor.forward();
+		rightMotor.forward();
+		robot.sleep(duration);
+		leftMotor.stop();
+		rightMotor.stop();		
     }
 	
     // This turns the robot to the right by movinf the left
@@ -129,14 +132,14 @@ public class MyColorSensor {
     	//System.out.println("Scanning " + (right ? "right" : "left") + " for " + count);
     	while (col != color) {
     		if(forward) {
-				goForward(5); //a wrong value
+				goForward(100); //a wrong value
     		}
             else {
     			goBackward(5); //a wrong value
     		}
     		col = sensor.getColor();			
     		if(col == color) {
-    			break;
+    			turnLeft(90);
     		}
     	}
     }
@@ -146,17 +149,33 @@ public class MyColorSensor {
     	while (true){
     		col = sensor.getColor();			
     		if(col == color) {
-				if(forward) {
-					goForward(5); //a wrong value
-				} 
-                else {
-					goBackward(5); //a wrong value
-				}
+				turnRight(2);
+				goForward(200);
+				col = sensor.getColor();
 			}
-			else {
+			else if (col == ColorSensor.Color.RED){
 				break;
 			}
+			else {
+				turnLeft(4);
+				goForward(200);
+				col = sensor.getColor();
+			} 
     	}
+		/*another version
+		   	while (true){
+    		col = sensor.getColor();			
+    		if(col == color) {
+				goForward();
+			}
+			else if (col == ColorSensor.Color.RED){
+				break;
+			}
+			else {
+				rightMotor.stop();
+			} 
+		}*/
+
     }
     // This is a somewhat complicated method for monitoring the motors and 
     // stopping them once they have rotated far enough.
