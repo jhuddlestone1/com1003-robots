@@ -62,11 +62,11 @@ public class MyColorSensor {
 			while (col !=color){
 				if(forward) {
 					goForward(5); //a wrong value
-				} else {
+				}
+                else {
 					goBackward(5); //a wrong value
 				}
 				col = sensor.getColor();			
-				}
 			}
 	    //make sound
     }
@@ -130,7 +130,8 @@ public class MyColorSensor {
     	while (col != color) {
     		if(forward) {
 				goForward(5); //a wrong value
-    		} else {
+    		}
+            else {
     			goBackward(5); //a wrong value
     		}
     		col = sensor.getColor();			
@@ -147,7 +148,8 @@ public class MyColorSensor {
     		if(col == color) {
 				if(forward) {
 					goForward(5); //a wrong value
-				} else {
+				} 
+                else {
 					goBackward(5); //a wrong value
 				}
 			}
