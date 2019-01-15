@@ -2,14 +2,14 @@ import ShefRobot.*;
 
 public class OurRobot {
 	
-	public ShefRobot.Robot robot;
-	private ShefRobot.Motor leftMotor;
-	private ShefRobot.Motor rightMotor;
-	private ShefRobot.Speaker speaker;
+	public Robot robot;
+	private Motor leftMotor;
+	private Motor rightMotor;
+	private Speaker speaker;
 	
 	public OurRobot() {	
 		// Robot setup
-		robot = new ShefRobot.Robot("dia-lego-e2");
+		robot = new Robot("dia-lego-e2");
 		
 		leftMotor = robot.getLargeMotor(Motor.Port.B);
 		rightMotor = robot.getLargeMotor(Motor.Port.C);
