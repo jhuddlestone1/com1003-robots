@@ -15,10 +15,10 @@ public class ColorSensor{
 	public static void main(String[]args){	
 	
 		// get a robot object
-    	robot = new Robot("dia-lego-..");
+    	robot = new Robot("dia-lego-e2");
     	// get left and right Motor objects
-    	leftMotor = robot.getLargeMotor(Motor.Port.A);
-    	rightMotor = robot.getLargeMotor(Motor.Port.B);
+    	leftMotor = robot.getLargeMotor(Motor.Port.B);
+    	rightMotor = robot.getLargeMotor(Motor.Port.C);
 		
 		//set speed
     	leftMotor.setSpeed(WALKING_SPEED);
