@@ -55,4 +55,30 @@ public class OurRobot {
 		rightMotor.stop();
 	}
 	
+	public static void whiteSolution() {
+		while(detectColor.getColor() == ColorSensor.Color.WHITE) {
+			right(500);
+			forward(500);
+			if (detectColor.getColor() == ColorSensor.Color.WHITE) {
+				left(1000);
+				forward(500);
+			}
+			else
+		}
+	}
+
+    public static void findBlackLine() {
+    	while(detectColor.getColor() != ColorSensor.Color.YELLOW) {
+    		switch(detectColor.getColor()) {
+    			case WHITE: whiteSolution(); break;
+
+    			case BLACK: forward(500); break;
+
+    			case RED: for(int hz=100; hz<900; hz+=100) {
+    				speaker.playTone(hz,500);
+    			}; break;
+    		}
+    	}
+    }
+	
 }
