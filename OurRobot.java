@@ -20,7 +20,7 @@ public class OurRobot {
 	    detectColor = robot.getColorSensor(Sensor.Port.S1);
 	}
 	
-	public void forward(int duration) {
+	public static void forward(int duration) {
 		
 		leftMotor.forward();
 		rightMotor.forward();
@@ -29,7 +29,7 @@ public class OurRobot {
 		rightMotor.stop();
 	}	
 	
-	public void backward(int duration) {
+	public static void backward(int duration) {
 		
 		leftMotor.backward();
 		rightMotor.backward();
@@ -38,7 +38,7 @@ public class OurRobot {
 		rightMotor.stop();
 	}	
 	
-	public void left(int duration) {
+	public static void left(int duration) {
 		
 		leftMotor.backward();
 		rightMotor.forward();
@@ -47,7 +47,7 @@ public class OurRobot {
 		rightMotor.stop();
 	}	
 	
-	public void right(int duration) {
+	public static void right(int duration) {
 		
 		leftMotor.forward();
 		rightMotor.backward();
