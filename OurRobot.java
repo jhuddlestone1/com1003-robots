@@ -3,9 +3,10 @@ import ShefRobot.*;
 public class OurRobot {
 	
 	public ShefRobot.Robot robot;
-	private ShefRobot.Motor leftMotor;
-	private ShefRobot.Motor rightMotor;
-	private ShefRobot.Speaker speaker;
+	private static ShefRobot.Motor leftMotor;
+	private static ShefRobot.Motor rightMotor;
+	private static ShefRobot.Speaker speaker;
+	private static ColorSensor detectColor;
 	
 	public OurRobot() {	
 		// Robot setup
@@ -16,7 +17,7 @@ public class OurRobot {
 		
 		speaker = robot.getSpeaker();
 		
-		ColorSensor detectColor = robot.getColorSensor(Sensor.Port.S1);
+	    detectColor = robot.getColorSensor(Sensor.Port.S1);
 	}
 	
 	public void forward(int duration) {
