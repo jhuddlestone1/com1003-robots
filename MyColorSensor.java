@@ -1,5 +1,5 @@
 // I changed protected methods for private ones, should we use (it is in a sample of code)/should we use a waitfor function
-
+//upload a class to gitlab!
 import ShefRobot.*;
 
 public class MyColorSensor {
@@ -39,7 +39,6 @@ public class MyColorSensor {
 		
 		//once the robot is out of the path, it is to go back to the centre of the circle 
 		//blackDot();
-		//scanRed(ColorSensor.Color.RED);
 
 		
     	// Close the robot and clean up all the connections to ports.
@@ -47,45 +46,30 @@ public class MyColorSensor {
     }
 	
 	private static void yellowDot(){
-			while (col != ColorSensor.Color.YELLOW){
-				//WORK ON MORE ELABORATE METHOD, HOW TO MEASURE THE DISTANCE TO CENTRE
-				//OF CIRCLE? MANUAL MEASURE OR ROBOT SHOULD FIGURE OUT THE CENTRE	
-				scanOffThePath(ColorSensor.Color.BLACK);
-				col = sensor.getColor();
-				if (col == ColorSensor.Color.YELLOW){
-					//release the ball 
-					for (int i=0;i<3;i++){
-						turnLeft(2);
-						turnRight(2);
-					}
-				}
-			}
+		//release the ball 
+		//it performs a dance
+		for (int i=0;i<3;i++){
+			turnLeft(2);
+			turnRight(2);
+		}
 	}
 
-		private static void blackDot(){
+		/*private static void blackDot(){
 			while (col != ColorSensor.Color.BLACK){
-				//WORK ON MORE ELABORATE METHOD, HOW TO MEASURE THE DISTANCE TO CENTRE
-				//OF CIRCLE? MANUAL MEASURE OR ROBOT SHOULD FIGURE OUT THE CENTRE	
 				goBackward(20); // a wrong value
 				turnRight(5); // a wrong value
 				scanOffThePath(ColorSensor.Color.BLACK);
 				col = sensor.getColor();	
 			}
-		}
+		}*/
 		
-		 private static void scanRed(ColorSensor.Color color) {
-    	//System.out.println("Scanning " + (right ? "right" : "left") + " for " + count);
-			while (col !=color){
-				scanOffThePath(ColorSensor.Color.BLACK); //a wrong value
-				col = sensor.getColor();			
-			}
+		 private static void redDot(ColorSensor.Color color) {
 			if (col == color){
 				//It can recognise the red dot by singing
-				//And attempt to pick up its ping pong ball
-				//turn 180 degress
-				//go back to the yellow dot: 
-				//scanOffThePath(ColorSensor.Color.BLACK);
-				//yellowDot();
+				//It attempts to pick up its ping pong ball
+				//It turns 180 degress
+				//It goes back to the yellow dot: 
+					//scanOffThePath(ColorSensor.Color.BLACK);
 				//release the ball;
 			}
     }
@@ -119,6 +103,10 @@ public class MyColorSensor {
     	waitfor(count,false,true);
     }
 	
+	private static void stop(){
+		leftMotor.stop();
+		rightMotor.stop();
+	}
 	
 	 private static void goBackward(int count) {
     	leftMotor.resetTachoCount();
@@ -183,19 +171,19 @@ public class MyColorSensor {
 				col = sensor.getColor();
 			}
 			else if (col == ColorSensor.Color.RED){
-				break;
+				stop();
+				redDot(ColorSensor.Color.RED);
+			}
+			else if (col == ColorSensor.Color.YELLOW){
+				stop();
+				yellowDot();
 			}
 			else {
 				while (col != color){
-				int i=1;
-				turnRight(i);
 				col = sensor.getColor();
-				if (col == color) 
-					scanOffThePath(ColorSensor.Color.BLACK);
-				else{					
-				    turnLeft(2*i);
-				    col = sensor.getColor();
-				}
+				int i=2;
+				turnRight(i);				
+				turnLeft(2*i);
 				i++;
 				}
 			} 
