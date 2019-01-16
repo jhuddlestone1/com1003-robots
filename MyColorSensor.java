@@ -1,4 +1,4 @@
-//protected methods, should we use (it is in a sample of code)/ get rid of int count in scan methods, get rid of boolean forward//should we use waitfor function
+// I changed protected methods for private ones, should we use (it is in a sample of code)/should we use a waitfor function
 
 import ShefRobot.*;
 
@@ -28,21 +28,21 @@ public class MyColorSensor {
     	sensor = robot.getColorSensor(Sensor.Port.S1);
     	
     	// the robot goes forward till black color is detected
-    	scanBlack(true,ColorSensor.Color.BLACK); // a wrong value 20
+    	scanBlack(ColorSensor.Color.BLACK); // a wrong value 20
 		
 		// go forward till the end of the black path
-		scanOffThePath(true, ColorSensor.Color.BLACK); // a wrong value 20 
+		scanOffThePath(ColorSensor.Color.BLACK); // a wrong value 20 
 			
 		//TO WORK ON:
 		//once the robot loose the black line, it turns right 90 degrees
 		//turnRight(90); // a wrong value of 90, adjust it
 		
 		//robot keeps track the black line 
-		//scanOffThePath(true,ColorSensor.Color.BLACK); // a wrong value 20 
+		//scanOffThePath(ColorSensor.Color.BLACK); // a wrong value 20 
 		
 		//once the robot is out of the path, it is to go back to the centre of the circle 
 		//blackDot();
-		//scanRed(true,ColorSensor.Color.RED);
+		//scanRed(ColorSensor.Color.RED);
 
 		
     	// Close the robot and clean up all the connections to ports.
@@ -55,7 +55,7 @@ public class MyColorSensor {
 				//OF CIRCLE? MANUAL MEASURE OR ROBOT SHOULD FIGURE OUT THE CENTRE	
 				goBackward(20); // a wrong value
 				turnRight(5); // a wrong value
-				scanOffThePath(true,ColorSensor.Color.BLACK);
+				scanOffThePath(ColorSensor.Color.BLACK);
 				col = sensor.getColor();	
 			}
 		}
@@ -63,12 +63,7 @@ public class MyColorSensor {
 		 private static void scanRed(boolean forward, ColorSensor.Color color) {
     	//System.out.println("Scanning " + (right ? "right" : "left") + " for " + count);
 			while (col !=color){
-				if(forward) {
-					goForward(500); //a wrong value
-				}
-                else {
-					goBackward(5); //a wrong value
-				}
+				goForward(500); //a wrong value
 				col = sensor.getColor();			
 			}
 	    //make sound
@@ -78,7 +73,7 @@ public class MyColorSensor {
     // Technically, the steps are degrees of rotation of the motors
     // but how this translates to actual distances moved will depend
     // on various factors...
-    protected static void goForward(int duration) {
+    private static void goForward(int duration) {
 		leftMotor.forward();
 		rightMotor.forward();
 		robot.sleep(duration);
@@ -92,7 +87,7 @@ public class MyColorSensor {
     // *of the motors*. How this relates to the rotation of the 
     // robot will depend on the size of the wheels, how far
     // apart they are, and various other factors.
-    protected static void turnRight(int count) {
+    private static void turnRight(int count) {
     	leftMotor.resetTachoCount();
     	rightMotor.resetTachoCount();
     	leftMotor.forward();
@@ -101,7 +96,7 @@ public class MyColorSensor {
     }
 	
 	
-	 protected static void goBackward(int count) {
+	 private static void goBackward(int count) {
     	leftMotor.resetTachoCount();
     	rightMotor.resetTachoCount();
     	leftMotor.backward();
@@ -110,7 +105,7 @@ public class MyColorSensor {
     }
     
     // This rotates the robot the other way...
-    protected static void turnLeft(int count) {
+    private static void turnLeft(int count) {
     	leftMotor.resetTachoCount();
     	rightMotor.resetTachoCount();
     	leftMotor.backward();
@@ -128,22 +123,17 @@ public class MyColorSensor {
     // This method updates the col variable, so 
     // that will be set to the last colour scanned
     // when the method completes.
-    private static void scanBlack(boolean forward, ColorSensor.Color color) {
+    private static void scanBlack(ColorSensor.Color color) {
     	//System.out.println("Scanning " + (right ? "right" : "left") + " for " + count);
     	while (col != color) {
-    		if(forward) {
-				goForward(100); //a wrong value
-    		}
-            else {
-    			goBackward(5); //a wrong value
-    		}
+			goForward(100); //a wrong value
     		col = sensor.getColor();			
     		if(col == color) {
     			turnLeft(90);
     		}
     	}
     }
-	private static void scanOffThePath(boolean forward, ColorSensor.Color color) {
+	private static void scanOffThePath(ColorSensor.Color color) {
     	//System.out.println("Scanning " + (right ? "right" : "left") + " for " + count);
 		//change for loops to while loops ! (delete int count)
     	while (true){
