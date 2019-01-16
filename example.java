@@ -1,22 +1,22 @@
 
-public class Example {
+public class Test {
 	
 	private static void goForward() {
 		leftMotor.forward();
 		rightMotor.forward();	
     }
 	
-	private static void goBackward(int count) {
+	private static void goBackward() {
     	leftMotor.backward();
     	rightMotor.backward();
     }
 	
-    private static void turnLeft(int count) {
+    private static void turnLeft() {
     	leftMotor.backward();
     	rightMotor.forward();
     }
 		
-    private static void turnRight(int count) {
+    private static void turnRight() {
     	leftMotor.forward();
     	rightMotor.backward();
     }
@@ -49,12 +49,12 @@ public class Example {
 					break;
 				*/
 				case WHITE:
-					dirIsLeft ? turnLeft(10) : turnRight(10);
+					dirIsLeft ? turnLeft() : turnRight();
 					dirIsLeft = !dirIsLeft;
 				
 				case BLACK:
 				default:
-					goForward(10);
+					goForward();
 				
 			}
 		}
