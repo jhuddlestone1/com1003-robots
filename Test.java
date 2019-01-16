@@ -4,22 +4,22 @@ public class Test {
 	private static void goForward() {
 		leftMotor.forward();
 		rightMotor.forward();	
-    }
+	}
 	
 	private static void goBackward() {
-    	leftMotor.backward();
-    	rightMotor.backward();
-    }
+		leftMotor.backward();
+		rightMotor.backward();
+	}
 	
-    private static void turnLeft() {
-    	leftMotor.backward();
-    	rightMotor.forward();
-    }
+	private static void turnLeft() {
+		leftMotor.backward();
+		rightMotor.forward();
+	}
 		
-    private static void turnRight() {
-    	leftMotor.forward();
-    	rightMotor.backward();
-    }
+	private static void turnRight() {
+		leftMotor.forward();
+		rightMotor.backward();
+	}
 	
 	private static void stop() {
 		leftMotor.stop();
