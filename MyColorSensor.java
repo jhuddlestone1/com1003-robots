@@ -10,7 +10,7 @@ public class MyColorSensor {
      static Speaker speaker;
      static ColorSensor sensor;
      static ColorSensor.Color col;
-	 static final int WALKING_SPEED=150;
+	 static final int WALKING_SPEED=100;
 	 
 	public static void main(String[] args){	
 	
@@ -45,34 +45,44 @@ public class MyColorSensor {
     	robot.close();
     }
 	
+	// This is the method that tells how the robot behaves when get black colour from a colour sensor
+    private static void scanBlack(ColorSensor.Color color) {
+    	while (col != color) {
+			goForward(); //a wrong value
+    		col = sensor.getColor();			
+    		if(col == color) {
+    			break;
+    		}
+    	}
+    }
+	
 	private static void yellowDot(){
-		//release the ball 
-		//it performs a dance
+		//It releases the ball 
+		//It performs a dance
 		for (int i=0;i<3;i++){
-			turnLeft(2);
-			turnRight(2);
+			turnLeft(5);
+			turnRight(5);
 		}
 	}
 
-		/*private static void blackDot(){
-			while (col != ColorSensor.Color.BLACK){
-				goBackward(20); // a wrong value
-				turnRight(5); // a wrong value
-				scanOffThePath(ColorSensor.Color.BLACK);
-				col = sensor.getColor();	
-			}
-		}*/
+	private static void blackDot(){
+		while (col != ColorSensor.Color.BLACK){
+			goBackward(20); // a wrong value
+			turnRight(5); // a wrong value
+			scanOffThePath(ColorSensor.Color.BLACK);
+			col = sensor.getColor();	
+		}
+	}
 		
-		 private static void redDot(ColorSensor.Color color) {
-			if (col == color){
-				//It can recognise the red dot by singing
-				//It attempts to pick up its ping pong ball
-				//It turns 180 degress
-				//It goes back to the yellow dot: 
-					//scanOffThePath(ColorSensor.Color.BLACK);
-				//release the ball;
-			}
-    }
+	private static void redDot(ColorSensor.Color color) {
+		if (col == color){
+			//It can recognise the red dot by singing
+			//It attempts to pick up its ping pong ball
+			//It turns 180 degress
+			//It goes back to the yellow dot: 
+				//scanOffThePath(ColorSensor.Color.BLACK);
+		}
+	}
     
     // This method moves the robot forward by count "steps"
     // Technically, the steps are degrees of rotation of the motors
@@ -89,25 +99,33 @@ public class MyColorSensor {
 		leftMotor.stop();
 		rightMotor.stop();		
     }*/
-    // This turns the robot to the right by movinf the left
+	
+    // This turns the robot to the right by moving the left
     // motor forward and the right motor backwards.
     // The count value is the number of degrees of rotation 
     // *of the motors*. How this relates to the rotation of the 
     // robot will depend on the size of the wheels, how far
     // apart they are, and various other factors.
-    private static void turnRight(int count) {
+   /*private static void turnRight() {
+    	leftMotor.resetTachoCount();
+    	rightMotor.resetTachoCount();
+    	leftMotor.forward();
+    	rightMotor.backward();
+    }*/
+	
+	private static void turnRight() {
     	leftMotor.resetTachoCount();
     	rightMotor.resetTachoCount();
     	leftMotor.forward();
     	rightMotor.backward();
     	waitfor(count,false,true);
-    }
-	
+	}
+	 //  This stops the robot
 	private static void stop(){
 		leftMotor.stop();
 		rightMotor.stop();
 	}
-	
+	 //  This method moves the robot backward by count "steps"
 	 private static void goBackward(int count) {
     	leftMotor.resetTachoCount();
     	rightMotor.resetTachoCount();
@@ -116,38 +134,51 @@ public class MyColorSensor {
     	waitfor(count,false,false);
     }
     
-    // This rotates the robot the other way...
-    private static void turnLeft(int count) {
+    //  This turns the robot to the left by moving the left
+    // motor forward and the right motor backwards.
+    /*private static void turnLeft() {
+    	leftMotor.resetTachoCount();
+    	rightMotor.resetTachoCount();
+    	leftMotor.backward();
+    	rightMotor.forward();
+    }*/
+	
+	 private static void turnLeft(int count) {
     	leftMotor.resetTachoCount();
     	rightMotor.resetTachoCount();
     	leftMotor.backward();
     	rightMotor.forward();
     	waitfor(count,true,false);
     }
-    
-    // This is a simple scanning method. It will
-    // rotate the robot a short distance either 
-    // to the right or "not right" (a.k.a. left!)
-    // and check the currently sensed colour.
-    // It looks for the specified colour and stops 
-    // if it finds it. It will repeat this a 
-    // maximum of 'count' times.
-    // This method updates the col variable, so 
-    // that will be set to the last colour scanned
-    // when the method completes.
-    private static void scanBlack(ColorSensor.Color color) {
-    	//System.out.println("Scanning " + (right ? "right" : "left") + " for " + count);
-    	while (col != color) {
-			goForward(); //a wrong value
+
+	
+	//This makes robot move along the black line
+	private static void scanOffThePath(ColorSensor.Color color) {
+		while (true){
     		col = sensor.getColor();			
     		if(col == color) {
-    			turnLeft(90);
-    		}
+				goForward();
+				col = sensor.getColor();
+
+			}
+			else if (col == ColorSensor.Color.RED){
+				stop();
+				redDot(ColorSensor.Color.RED);
+			}
+			else if (col == ColorSensor.Color.YELLOW){
+				stop();
+				yellowDot();
+			}
+			else {
+				while (sensor.getColor() != color){
+					//works when robot is on the right side from the line
+					goForward();
+					turnRight();
+					//turnLeft();
+				}
+			} 
     	}
-    }
-	private static void scanOffThePath(ColorSensor.Color color) {
-    	//System.out.println("Scanning " + (right ? "right" : "left") + " for " + count);
-		//change for loops to while loops ! (delete int count)
+		
     	/*while (true){
     		col = sensor.getColor();			
     		if(col == color) {
@@ -164,30 +195,7 @@ public class MyColorSensor {
 				col = sensor.getColor();
 			} 
     	}*/
-			while (true){
-    		col = sensor.getColor();			
-    		if(col == color) {
-				goForward();
-				col = sensor.getColor();
-			}
-			else if (col == ColorSensor.Color.RED){
-				stop();
-				redDot(ColorSensor.Color.RED);
-			}
-			else if (col == ColorSensor.Color.YELLOW){
-				stop();
-				yellowDot();
-			}
-			else {
-				while (col != color){
-				col = sensor.getColor();
-				int i=2;
-				turnRight(i);				
-				turnLeft(2*i);
-				i++;
-				}
-			} 
-    	}
+
 		/*another version
 		   	while (true){
     		col = sensor.getColor();			
