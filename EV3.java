@@ -119,7 +119,7 @@ public class EV3 {
 
 	public void scanLeft(int deg) {
 		ColorSensor.Color color = getColor();
-		turnLeft();
+		turnLeft(deg);
 		while (color == getColor());
 		stop();
 	}
@@ -133,7 +133,7 @@ public class EV3 {
 
 	public void scanRight(int deg) {
 		ColorSensor.Color color = getColor();
-		turnRight();
+		turnRight(deg);
 		while (color == getColor());
 		stop();
 	}
