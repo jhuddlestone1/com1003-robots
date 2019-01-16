@@ -17,6 +17,7 @@ public class EV3 {
 
 	final double TURN_RATIO = WHEEL_TURN_CIRCLE / WHEEL_CIRCUMFERENCE;
 
+	Robot ev3;
 	Speaker speaker;
 	Motor grabMotor;
 	Motor leftMotor;
@@ -27,7 +28,7 @@ public class EV3 {
 	/* Constructor */
 
 	public EV3(String id) {
-		Robot ev3 = new Robot(id);
+		ev3 = new Robot(id);
 		grabMotor = ev3.getMediumMotor(Motor.Port.A);
 		leftMotor = ev3.getLargeMotor(Motor.Port.B);
 		rightMotor = ev3.getLargeMotor(Motor.Port.C);
@@ -94,6 +95,10 @@ public class EV3 {
 		leftMotor.stop();
 		rightMotor.stop();
 	}
+	
+	public void sleep(int ms) {
+		ev3.sleep(ms);
+	}
 
 	public ColorSensor.Color getColor() {
 		return colorSensor.getColor();
@@ -106,25 +111,32 @@ public class EV3 {
 	/* Composite functions */
 
 	public void scanLeft() {
-
+		ColorSensor.Color color = getColor();
+		turnLeft();
+		while (color == getColor());
+		stop();
 	}
 
 	public void scanLeft(int deg) {
-
+		ColorSensor.Color color = getColor();
+		turnLeft();
+		while (color == getColor());
+		stop();
 	}
 
 	public void scanRight() {
-
+		ColorSensor.Color color = getColor();
+		turnRight();
+		while (color == getColor());
+		stop();
 	}
 
 	public void scanRight(int deg) {
-
+		ColorSensor.Color color = getColor();
+		turnRight();
+		while (color == getColor());
+		stop();
 	}
-	/*
-	public ColorSensor.Color scanforColor() {
-
-	}
-	*/
 
 	/* Main function */
 
@@ -138,7 +150,7 @@ public class EV3 {
 			switch (robot.getColor()) {
 
 				case YELLOW:
-					robot.dance();
+					//robot.dance();
 					break;
 
 				case RED:
@@ -146,7 +158,7 @@ public class EV3 {
 					break;
 
 				case WHITE:
-					robot.turnRight();
+					robot.scanRight();
 
 				case BLACK:
 				default:
@@ -155,7 +167,6 @@ public class EV3 {
 			}
 		}
 		*/
-
 		//robot.close();
 
 	}
