@@ -11,11 +11,12 @@ public class MyColorSensor {
      static ColorSensor sensor;
      static ColorSensor.Color col;
 	 static final int WALKING_SPEED=150;
-	
+	 
 	public static void main(String[] args){	
 	
 		// get a robot object
     	robot = new Robot("dia-lego-e2");
+		
     	// get left and right Motor objects
     	leftMotor = robot.getLargeMotor(Motor.Port.B);
     	rightMotor = robot.getLargeMotor(Motor.Port.C);
@@ -33,10 +34,6 @@ public class MyColorSensor {
 		// go forward till the end of the black path
 		scanOffThePath(ColorSensor.Color.BLACK); // a wrong value 20 
 			
-		//TO WORK ON:
-		//once the robot loose the black line, it turns right 90 degrees
-		//turnRight(90); // a wrong value of 90, adjust it
-		
 		//robot keeps track the black line 
 		//scanOffThePath(ColorSensor.Color.BLACK); // a wrong value 20 
 		
@@ -55,13 +52,14 @@ public class MyColorSensor {
 				//OF CIRCLE? MANUAL MEASURE OR ROBOT SHOULD FIGURE OUT THE CENTRE	
 				scanOffThePath(ColorSensor.Color.BLACK);
 				col = sensor.getColor();
-				if (col == color){
+				if (col == ColorSensor.Color.YELLOW){
 					//release the ball 
 					for (int i=0;i<3;i++){
 						turnLeft(2);
 						turnRight(2);
 					}
 				}
+			}
 	}
 
 		private static void blackDot(){
@@ -78,7 +76,7 @@ public class MyColorSensor {
 		 private static void scanRed(ColorSensor.Color color) {
     	//System.out.println("Scanning " + (right ? "right" : "left") + " for " + count);
 			while (col !=color){
-				scanOffThePath(); //a wrong value
+				scanOffThePath(ColorSensor.Color.BLACK); //a wrong value
 				col = sensor.getColor();			
 			}
 			if (col == color){
@@ -89,7 +87,7 @@ public class MyColorSensor {
 				//scanOffThePath(ColorSensor.Color.BLACK);
 				//yellowDot();
 				//release the ball;
-	    
+			}
     }
     
     // This method moves the robot forward by count "steps"
