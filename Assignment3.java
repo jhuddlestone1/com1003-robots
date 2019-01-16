@@ -7,13 +7,9 @@ public class Assignment3 {
 	*/
 	public static void main(String[] args) {
 	
-		OurRobot ourRobot = new OurRobot();
+		EV3 robot = new EV3("dia-lego-e2");
 		
-		ourRobot.forward(5000);
-		ourRobot.left(100);
-		ourRobot.forward(5000);
-		
-		ourRobot.robot.close();
+		robot.goForward();
 		
 	}
 }

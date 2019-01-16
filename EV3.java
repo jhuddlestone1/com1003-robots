@@ -8,6 +8,8 @@
 import ShefRobot.*;
 
 public class EV3 {
+	
+	final int MOTOR_SPEED = 100;
 
 	final int WHEEL_DIAMETER = 55;	// mm
 	final int WHEEL_CIRCUMFERENCE = (int) Math.round(WHEEL_DIAMETER * Math.PI);
@@ -35,6 +37,9 @@ public class EV3 {
 		colorSensor = ev3.getColorSensor(Sensor.Port.S1);
 		distanceSensor = ev3.getUltrasonicSensor(Sensor.Port.S2);
 		speaker = ev3.getSpeaker();
+		
+		leftMotor.setSpeed(MOTOR_SPEED);
+		rightMotor.setSpeed(MOTOR_SPEED);		
 	}
 
 	/* Basic functions */
@@ -72,32 +77,28 @@ public class EV3 {
 	}
 
 	public void turnLeft() {
-		leftMotor.backward();
+		//leftMotor.backward();
 		rightMotor.forward();
 	}
 
 	public void turnLeft(int deg) {
-		leftMotor.rotate(-(int) Math.round(deg * TURN_RATIO), true);
-		rightMotor.rotate((int) Math.round(deg * TURN_RATIO), true);
+		//leftMotor.rotate(-(int) Math.round(deg * TURN_RATIO), true);
+		rightMotor.rotate((int) Math.round(deg * 2 * TURN_RATIO));	//, true);
 	}
 
 	public void turnRight() {
 		leftMotor.forward();
-		rightMotor.backward();
+		//rightMotor.backward();
 	}
 
 	public void turnRight(int deg) {
-		leftMotor.rotate((int) Math.round(deg * TURN_RATIO), true);
-		rightMotor.rotate(-(int) Math.round(deg * TURN_RATIO), true);
+		leftMotor.rotate((int) Math.round(deg * 2 * TURN_RATIO));	//, true);
+		//rightMotor.rotate(-(int) Math.round(deg * TURN_RATIO), true);
 	}
 
 	public void stop() {
 		leftMotor.stop();
 		rightMotor.stop();
-	}
-	
-	public void sleep(int ms) {
-		ev3.sleep(ms);
 	}
 
 	public ColorSensor.Color getColor() {
@@ -107,35 +108,55 @@ public class EV3 {
 	public double getDistance() {
 		return (double) distanceSensor.getDistance();
 	}
+	
+	public void sleep(int ms) {
+		ev3.sleep(ms);
+	}
+	
+	public void close() {
+		ev3.close();
+	}
 
 	/* Composite functions */
 
-	public void scanLeft() {
+	public ColorSensor.Color scanForward() {
+		ColorSensor.Color color = getColor();
+		goForward();
+		while (color == getColor());
+		stop();
+		return getColor();
+	}
+	
+	public ColorSensor.Color scanLeft() {
 		ColorSensor.Color color = getColor();
 		turnLeft();
 		while (color == getColor());
 		stop();
+		return getColor();
 	}
 
-	public void scanLeft(int deg) {
+	public ColorSensor.Color scanLeft(int deg) {
 		ColorSensor.Color color = getColor();
 		turnLeft(deg);
 		while (color == getColor());
 		stop();
+		return getColor();
 	}
 
-	public void scanRight() {
+	public ColorSensor.Color scanRight() {
 		ColorSensor.Color color = getColor();
 		turnRight();
 		while (color == getColor());
 		stop();
+		return getColor();
 	}
 
-	public void scanRight(int deg) {
+	public ColorSensor.Color scanRight(int deg) {
 		ColorSensor.Color color = getColor();
 		turnRight(deg);
 		while (color == getColor());
 		stop();
+		return getColor();
 	}
 
 	/* Main function */
@@ -143,31 +164,41 @@ public class EV3 {
 	public static void main(String[] args) {
 
 		EV3 robot = new EV3("dia-lego-e2");
-
-		/*
-		while (true) {
+		
+		boolean run = true;
+		
+		robot.scanForward();
+		robot.turnLeft(90);
+		while (run) {
 
 			switch (robot.getColor()) {
 
 				case YELLOW:
+					robot.stop();
+					robot.release();
 					//robot.dance();
+					run = false;
 					break;
 
 				case RED:
+					robot.goForward();
+					while (robot.getDistance() > 0.05);
+					robot.stop();
 					robot.grab();
+					robot.turnRight(180);
+					robot.scanForward();
 					break;
 
 				case WHITE:
 					robot.scanRight();
+					break;
 
 				case BLACK:
 				default:
-					robot.goForward();
-
+					robot.scanLeft();
+					break;
 			}
 		}
-		*/
-		//robot.close();
-
+		robot.close();
 	}
 }
