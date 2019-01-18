@@ -27,7 +27,7 @@ public class Assignment3 {
 		
 		// The movement algorithm
 		while (run) {
-			
+	
 			// Detect current colour and perform actions based on results
 			if (robot.getColor() == ColorSensor.Color.BLACK) {
 				robot.goForward();
@@ -36,39 +36,43 @@ public class Assignment3 {
 				
 			else if (robot.getColor() == ColorSensor.Color.YELLOW) {
 				robot.stop();
-				// Robot releases the ball and dances
+				
+				// Robot releases the ball, sings and dances
 				robot.release();
 				robot.sing();
 				robot.dance();
+				
 				// Stop main algorithm move
 				run = false;
 			}
 
 			else if (robot.getColor() == ColorSensor.Color.RED) {
-					robot.goForward();
-					// Keep going forward until distance sensor detects object less than 5cm away
-					double distance;
-					do distance = robot.getDistance();
-					while (distance > 0.05 && distance < 1);
-					robot.stop();
-					// Robot grabs the ball
-					robot.grab();
-					robot.sing();
-					// Robot heads back towards the line
-					robot.turnRight(200);
-					robot.scanForward();
+				robot.goForward();
+				
+				// Keep going forward until distance sensor detects object less than 5cm away
+				double distance;
+				do distance = robot.getDistance();
+				while (distance > 0.05 && distance < 1);
+				robot.stop();
+				
+				// Robot grabs the ball
+				robot.grab();
+				robot.sing();
+				
+				// Robot heads back towards the line
+				robot.turnRight(200);
+				robot.scanForward();
 			}
 
 			else {
 				
-				if (robot.getColor() != ColorSensor.Color.BLACK) {
-					//works when robot is on the right side from the line
-					robot.goForward();
-					robot.turnRight();
-				}
+				//This works when robot is on the right side from the line
+				robot.goForward();
+				robot.turnRight();
 			}
 		}
-		// Close the robot and clean up all the connections to ports.
+		
+		// Close the robot and clean up all the connections to ports
 		robot.close();
 	}
 }
