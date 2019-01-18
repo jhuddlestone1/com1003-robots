@@ -47,7 +47,6 @@ public class Ev3 {
 		
 		// Set the initial value of motor speed
 		motorSpeed = 60;
-		grabMotor.setSpeed(motorSpeed);
 		setSpeed(motorSpeed);
 	}
 
@@ -94,7 +93,6 @@ public class Ev3 {
 	*  @author Jamie Huddlestone
 	*/
 	public void turnLeft() {
-		leftMotor.backward();
 		rightMotor.forward();
 	}
 
@@ -113,7 +111,6 @@ public class Ev3 {
 	*/
 	public void turnRight() {
 		leftMotor.forward();
-		rightMotor.backward();
 	}
 	
 	/**
@@ -318,6 +315,8 @@ public class Ev3 {
 		
 		// Create a new instance of class representing a robot
 		Ev3 robot = new Ev3("dia-lego-e2");
+		
+		robot.sing();
 		/*
 		while (true) {
 			System.out.println(robot.getColor());

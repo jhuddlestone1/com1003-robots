@@ -4,8 +4,6 @@
 * @author Jamie Huddlestone, JIAHUI LYU, Karolina Debowska
 */
 
-import ShefRobot.*;
-
 public class Assignment3 {	
 	/**	
 	* Main function
@@ -18,54 +16,67 @@ public class Assignment3 {
 		
 		// Set conditions to make robot perform 
 		boolean run = true;
+		boolean outward = true;
 		
 		// The robot moves forward until it finds a black line
 		robot.scanForward();
 		
 		// Once the robot find a line, it turns left 90 degrees
-		robot.turnLeft(100);
+		robot.turnLeft(90);
 		
 		// The movement algorithm
 		while (run) {
 			
 			// Detect current colour and perform actions based on results
-			if (robot.getColor() == ColorSensor.Color.BLACK) {
-				robot.goForward();
-				robot.turnLeft();
-			}
+			switch (robot.getColor()) {
 				
-			else if (robot.getColor() == ColorSensor.Color.YELLOW) {
-				robot.stop();
-				// Robot releases the ball and dances
-				robot.release();
-				robot.sing();
-				robot.dance();
-				// Stop main algorithm move
-				run = false;
-			}
+				case NONE:
+					// Stop if no colour detected, eg. robot lifted off ground
+					robot.stop();
+				
+				case YELLOW:
+					robot.stop();
+					// Robot releases the ball and dances
+					robot.release();
+					robot.dance();
+					// Stop main algorithm move
+					run = false;
+					break;
 
-			else if (robot.getColor() == ColorSensor.Color.RED) {
+				case RED:
 					robot.goForward();
 					// Keep going forward until distance sensor detects object less than 5cm away
-					double distance;
-					do distance = robot.getDistance();
-					while (distance > 0.05 && distance < 1);
+					while (robot.getDistance() > 0.05);
 					robot.stop();
 					// Robot grabs the ball
 					robot.grab();
 					robot.sing();
+					// Switch to homeward leg of journey
+					outward = false;
 					// Robot heads back towards the line
-					robot.turnRight(200);
+					robot.turnLeft(180);
 					robot.scanForward();
-			}
+					break;
 
-			else {
-				
-				if (robot.getColor() != ColorSensor.Color.BLACK) {
-					//works when robot is on the right side from the line
-					robot.goForward();
-					robot.turnRight();
-				}
+				case BLACK:
+					// When robot detects black, it moves forward and left (towards white area)
+					if (outward)
+						robot.scanLeft();
+					else
+						robot.scanRight();
+					break;
+					
+				case WHITE:
+					// When robot detects white, it moves forward and right (towards black line)
+					if (outward)
+						robot.scanRight();
+					else
+						robot.scanLeft();
+					break;
+					
+				default:
+					// Scan forward if unsure what colour
+					robot.scanForward();
 			}
 		}
 		// Close the robot and clean up all the connections to ports.
