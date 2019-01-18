@@ -172,7 +172,8 @@ public class Ev3 {
 	public ColorSensor.Color scanForward() {
 		goForward();
 		ColorSensor.Color originalColor = getColor();
-		do ColorSensor.Color newColor = getColor();
+		ColorSensor.Color newColor = originalColor;
+		do newColor = getColor();
 		while (newColor == originalColor);
 		stop();
 		return newColor;
@@ -185,7 +186,8 @@ public class Ev3 {
 	public ColorSensor.Color scanLeft() {
 		turnLeft();
 		ColorSensor.Color originalColor = getColor();
-		do ColorSensor.Color newColor = getColor();
+		ColorSensor.Color newColor = originalColor;
+		do newColor = getColor();
 		while (newColor == originalColor);
 		stop();
 		return newColor;
@@ -198,7 +200,8 @@ public class Ev3 {
 	public ColorSensor.Color scanRight() {
 		turnRight();
 		ColorSensor.Color originalColor = getColor();
-		do ColorSensor.Color newColor = getColor();
+		ColorSensor.Color newColor = originalColor;
+		do newColor = getColor();
 		while (newColor == originalColor);
 		stop();
 		return newColor;
