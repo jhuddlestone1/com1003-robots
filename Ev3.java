@@ -183,34 +183,6 @@ public class Ev3 {
 	}
 	
 	/**
-	* The robot moves forward and left until it detects a change in color
-	* @author Jamie Huddlestone, Karolina Debowska
-	*/
-	public ColorSensor.Color scanLeft() {
-		ColorSensor.Color originalColor = getColor();
-		ColorSensor.Color newColor = originalColor;
-		turnLeft();
-		do newColor = getColor();
-		while (newColor == originalColor);
-		stop();
-		return newColor;
-	}
-	
-	/**
-	* The robot moves forward and right until it detects a change in color
-	* @author Jamie Huddlestone, Karolina Debowska
-	*/
-	public ColorSensor.Color scanRight() {
-		ColorSensor.Color originalColor = getColor();
-		ColorSensor.Color newColor = originalColor;
-		turnRight();
-		do newColor = getColor();
-		while (newColor == originalColor);
-		stop();
-		return newColor;
-	}
-	
-	/**
 	* This sets speed of both main motors of robot
 	* @param speed     the speed of robot in degrees of motor rotation per second
 	* @author Jamie Huddlestone, Karolina Debowska
@@ -318,11 +290,7 @@ public class Ev3 {
 		
 		// Create a new instance of class representing a robot
 		Ev3 robot = new Ev3("dia-lego-e2");
-		/*
-		while (true) {
-			System.out.println(robot.getColor());
-		}
-		*/
+		robot.sing();
 		robot.close();
 	}
 }
