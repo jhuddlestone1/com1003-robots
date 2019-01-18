@@ -14,8 +14,9 @@ public class Assignment3 {
 		// Create a new instance of class representing a robot
 		Ev3 robot = new Ev3("dia-lego-e2");
 		
-		// Set condition to make robot perform 
+		// Set conditions to make robot perform 
 		boolean run = true;
+		boolean outward = true;
 		
 		// The robot moves forward until it finds a black line
 		robot.scanForward();
@@ -28,6 +29,10 @@ public class Assignment3 {
 			
 			// Detect current colour and perform actions based on results
 			switch (robot.getColor()) {
+				
+				case NONE:
+					// Stop if no colour detected, eg. robot lifted off ground
+					robot.stop();
 				
 				case YELLOW:
 					robot.stop();
@@ -46,21 +51,32 @@ public class Assignment3 {
 					// Robot grabs the ball
 					robot.grab();
 					robot.sing();
-					robot.turnRight(180);
+					// Switch to homeward leg of journey
+					outward = false;
 					// Robot heads back towards the line
+					robot.turnLeft(180);
 					robot.scanForward();
 					break;
 
+				case BLACK:
+					// When robot detects black, it moves forward and left (towards white area)
+					if (outward)
+						robot.scanLeft();
+					else
+						robot.scanRight();
+					break;
+					
 				case WHITE:
 					// When robot detects white, it moves forward and right (towards black line)
-					robot.scanRight();
+					if (outward)
+						robot.scanRight();
+					else
+						robot.scanLeft();
 					break;
-
-				case BLACK:
+					
 				default:
-					// When robot detects black, it moves forward and left (towards white area)
-					robot.scanLeft();
-					break;
+					// Scan forward if unsure what colour
+					robot.scanForward();
 			}
 		}
 		// Close the robot and clean up all the connections to ports.

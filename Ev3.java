@@ -46,7 +46,7 @@ public class Ev3 {
 		speaker = ev3.getSpeaker();
 		
 		// Set the initial value of motor speed
-		motorSpeed = 100;
+		motorSpeed = 80;
 		setSpeed(motorSpeed);
 	}
 
@@ -56,7 +56,7 @@ public class Ev3 {
 	*/
 	public void grab() {
 		grabMotor.forward();
-		while (!grabMotor.isStalled());
+		sleep(500);
 		grabMotor.stop();
 	}
 	 
@@ -66,7 +66,7 @@ public class Ev3 {
 	*/ 
 	public void release() {
 		grabMotor.backward();
-		while (!grabMotor.isStalled());
+		sleep(500);
 		grabMotor.stop();
 	}
 	
@@ -170,11 +170,12 @@ public class Ev3 {
 	* @author Jamie Huddlestone, Karolina Debowska
 	*/
 	public ColorSensor.Color scanForward() {
-		ColorSensor.Color color = getColor();
 		goForward();
-		while (color == getColor());
+		ColorSensor.Color originalColor = getColor();
+		do ColorSensor.Color newColor = getColor();
+		while (newColor == originalColor);
 		stop();
-		return getColor();
+		return newColor;
 	}
 	
 	/**
@@ -182,11 +183,12 @@ public class Ev3 {
 	* @author Jamie Huddlestone, Karolina Debowska
 	*/
 	public ColorSensor.Color scanLeft() {
-		ColorSensor.Color color = getColor();
 		turnLeft();
-		while (color == getColor());
+		ColorSensor.Color originalColor = getColor();
+		do ColorSensor.Color newColor = getColor();
+		while (newColor == originalColor);
 		stop();
-		return getColor();
+		return newColor;
 	}
 	
 	/**
@@ -194,11 +196,12 @@ public class Ev3 {
 	* @author Jamie Huddlestone, Karolina Debowska
 	*/
 	public ColorSensor.Color scanRight() {
-		ColorSensor.Color color = getColor();
 		turnRight();
-		while (color == getColor());
+		ColorSensor.Color originalColor = getColor();
+		do ColorSensor.Color newColor = getColor();
+		while (newColor == originalColor);
 		stop();
-		return getColor();
+		return newColor;
 	}
 	
 	/**
@@ -206,7 +209,7 @@ public class Ev3 {
 	* @param speed     the speed of robot in degrees of motor rotation per second
 	* @author Jamie Huddlestone, Karolina Debowska
 	*/
-	public void setSpeed(int speed){
+	public void setSpeed(int speed) {
 		leftMotor.setSpeed(speed);
 		rightMotor.setSpeed(speed);	
 		motorSpeed = speed;
@@ -216,16 +219,17 @@ public class Ev3 {
 	* Performs a piece of music
 	* @author Jamie Huddlestone
 	*/
-	public void sing(){
-		playMusic("C;E;G",200);
+	public void sing() {
+		playMusic("G;A;B;c;d;c;B;A;G", 100);
 	}
 	
 	/** Converts a semicolon-delimited string of note names / relative note duration into frequencies / absolute duration,
-	* e.g. "pitch[*duration];pitch*[duration]"
+	* e.g. "pitch[.duration];pitch[.duration]"
 	* @author Jamie Huddlestone
 	* @param music	String representing score into individual notes, delimited by semicolons
 	* @param tempo	Default tempo (modified by duration multiplier on a note-by-note basis)
 	*/
+	
 	private void playMusic(String music, double tempo) {
 		
 		// Split string representing score into individual notes, delimited by semicolons
@@ -235,8 +239,8 @@ public class Ev3 {
 		int scoreLength = score.length;
 		for (int n=0; n < scoreLength; n++) {
 			
-			// Split note by *-delimiter as "pitch*duration"
-			String[] note = score[n].split("*");
+			// Split note by delimiter as "pitch.duration"
+			String[] note = score[n].split("-");
 
 			// Determine pitch
 			int frequency = 0;
@@ -278,7 +282,7 @@ public class Ev3 {
 			}
 			
 			// Play tone depending on presence of duration multiplier
-			if (note.length > 0) {
+			if (note.length > 1) {
 				double duration = Double.valueOf(note[1]);
 				speaker.playTone(frequency, (int) Math.round(tempo*duration));
 			}
@@ -286,7 +290,7 @@ public class Ev3 {
 				speaker.playTone(frequency, (int) Math.round(tempo));
 		}
 	}
-	
+
 	/**
 	* Robot performs a dance 
 	*@author JIAHUI LYU, Karolina Debowska
@@ -301,64 +305,19 @@ public class Ev3 {
 	}
 	
 	/**
-	* test harness, duplicated in Assignment3.java
+	* test harness
 	* @author Jamie Huddlestone, JIAHUI LYU, Karolina Debowska
 	*/
 	public static void main(String[] args) {
 		
 		// Create a new instance of class representing a robot
 		Ev3 robot = new Ev3("dia-lego-e2");
-		
-		// Set condition to make robot perform 
-		boolean run = true;
-		
-		// The robot moves forward until it finds a black line
-		robot.scanForward();
-		
-		// Once the robot find a line, it turns left 90 degrees
-		robot.turnLeft(90);
-		
-		// The movement algorithm
-		while (run) {
-			
-			// Detect current colour and perform actions based on results
-			switch (robot.getColor()) {
-				
-				case YELLOW:
-					robot.stop();
-					// Robot releases the ball and dances
-					robot.release();
-					robot.dance();
-					// Stop main algorithm move
-					run = false;
-					break;
-
-				case RED:
-					robot.goForward();
-					// Keep going forward until distance sensor detects object less than 5cm away
-					while (robot.getDistance() > 0.05);
-					robot.stop();
-					// Robot grabs the ball
-					robot.grab();
-					robot.sing();
-					robot.turnRight(180);
-					// Robot heads back towards the line
-					robot.scanForward();
-					break;
-
-				case WHITE:
-					// When robot detects white, it moves forward and right (towards black line)
-					robot.scanRight();
-					break;
-
-				case BLACK:
-				default:
-					// When robot detects black, it moves forward and left (towards white area)
-					robot.scanLeft();
-					break;
-			}
+		/*
+		while (true) {
+			System.out.println(robot.getColor());
 		}
-		// Close the robot and clean up all the connections to ports.
+		*/
+		robot.sing();
 		robot.close();
 	}
 }
